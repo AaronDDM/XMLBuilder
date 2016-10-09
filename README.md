@@ -14,11 +14,11 @@ $xmlBuilder = new XMLBuilder($xmlWriterService);
 
 $xmlBuilder->setParseValueFunction(function ($value, $type) {
     if(is_bool($value)) {
-        $type = 'bool';
+        $type = 'boolean';
     }
 
     switch($type) {
-        case 'bool':
+        case 'boolean':
             $value = ($value) ? 'True' : 'False';
         break;
     }
@@ -28,11 +28,11 @@ $xmlBuilder->setParseValueFunction(function ($value, $type) {
 
 $xmlBuilder
     ->start('Root')
-        ->add('First Child First Element', 'This is a test')
+        ->addCData('1 First Child First Element', 'This is a test')
         ->add('First Child Second Element', false)
         ->start('Second Parent')
-            ->add('Second child 1')
-            ->add('Second child 2')
+            ->add('Second child 1', null, ['myAttr' => 'Attr Value'])
+            ->add('Second child 2', false)
             ->start('Third Parent')
                 ->add('Child')
             ->end()
@@ -44,21 +44,22 @@ $xmlBuilder
 var_dump($xmlBuilder->getXML());
 
 /*
+----------------------------------------------
 Output:
-
-
-string(493) "<?xml version="1.0" encoding="UTF-8"?>
+----------------------------------------------
+string(414) "<?xml version="1.0" encoding="UTF-8"?>
 <Root>
     <FirstChildFirstElement><![CDATA[This is a test]]></FirstChildFirstElement>
-    <FirstChildSecondElement><![CDATA[False]]></FirstChildSecondElement>
+    <FirstChildSecondElement>False</FirstChildSecondElement>
     <SecondParent>
-        <Secondchild><![CDATA[]]></Secondchild>
-        <Secondchild><![CDATA[]]></Secondchild>
+        <Secondchild myAttr="Attr Value"/>
+        <Secondchild>False</Secondchild>
         <ThirdParent>
-            <Child><![CDATA[]]></Child>
+            <Child/>
         </ThirdParent>
     </SecondParent>
-    <FirstChildThirdElement><![CDATA[]]></FirstChildThirdElement>
+    <FirstChildThirdElement/>
 </Root>
 "
+
 */
