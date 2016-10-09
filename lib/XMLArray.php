@@ -130,24 +130,6 @@ class XMLArray
     }
 
     /**
-     * @return boolean
-     */
-    public function isOpened(): bool
-    {
-        return $this->opened;
-    }
-
-    /**
-     * @param boolean $opened
-     * @return XMLArray
-     */
-    public function setOpened(bool $opened): XMLArray
-    {
-        $this->opened = $opened;
-        return $this;
-    }
-
-    /**
      * @return \Closure
      */
     public function getParseValueFunction()
