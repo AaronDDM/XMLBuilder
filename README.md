@@ -2,11 +2,15 @@
 
 ### Example
 ```php
+<?php
+
 require_once 'vendor/autoload.php';
 
 use AaronDDM\XMLBuilder\XMLBuilder;
+use AaronDDM\XMLBuilder\Writer\XMLWriterService;
 
-$xmlBuilder = new XMLBuilder();
+$xmlWriterService = new XMLWriterService();
+$xmlBuilder = new XMLBuilder($xmlWriterService);
 
 $xmlBuilder->setParseValueFunction(function ($value, $type) {
     if(is_bool($value)) {

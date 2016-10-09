@@ -10,8 +10,9 @@
 
 namespace AaronDDM\XMLBuilder\Exception;
 
+use AaronDDM\XMLBuilder\Exception\XMLBuilderException;
 
-class XMLBuilderException extends \Exception 
+class XMLArrayException extends XMLBuilderException
 {
 
 }
