@@ -62,6 +62,8 @@ class XMLWriterService extends AbstractWriter
             $xmlWriter->setIndent(true);
             $xmlWriter->setIndentString('    ');
             $xmlWriter->startDocument('1.0', 'UTF-8');
+        } else {
+            $xmlWriter->openMemory();
         }
 
         $this->buildXML([$xmlArray], $xmlWriter);
@@ -78,10 +80,26 @@ class XMLWriterService extends AbstractWriter
         foreach($array as $element)
         {
             $xmlWriter->startElement($element['name']);
-            if(is_array($element['value'])) {
+            foreach ($element['attributes'] as $attributeName => $value) {
+                $xmlWriter->writeAttribute($attributeName, $value);
+            }
+            if (is_array($element['value'])) {
                 $this->buildXML($element['value'], $xmlWriter);
             } else {
-                $xmlWriter->writeCdata($element['value']);
+                if($element['value'] !== null) {
+                    switch(strtolower($element['type']))
+                    {
+                        case 'cdata':
+                            $xmlWriter->writeCdata($element['value']);
+                        break;
+                            break;
+                        case 'comment':
+                            $xmlWriter->writeComment($element['value']);
+                            break;
+                        default:
+                            $xmlWriter->writeRaw($element['value']);
+                    }
+                }
             }
             $xmlWriter->endElement();
         }

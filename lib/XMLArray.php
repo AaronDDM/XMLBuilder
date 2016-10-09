@@ -39,12 +39,40 @@ class XMLArray
      * @param null $attributes
      * @return XMLArray
      */
-    public function start($name, $attributes = null): XMLArray
+    public function start($name, $attributes = []): XMLArray
     {
         $newArray = $this->createArray($name, [], $attributes);
 
         $this->stack[] = $newArray;
 
+        return $this;
+    }
+
+    /**
+     * Add a single/child element with a cdata type.
+     *
+     * @param $name
+     * @param null $value
+     * @param array $attributes
+     * @return XMLArray
+     */
+    public function addBoolean($name, $value = null, $attributes = []): XMLArray
+    {
+        $this->add($name, $value, $attributes, 'boolean');
+        return $this;
+    }
+
+    /**
+     * Add a single/child element with a cdata type.
+     *
+     * @param $name
+     * @param null $value
+     * @param array $attributes
+     * @return XMLArray
+     */
+    public function addCData($name, $value = null, $attributes = []): XMLArray
+    {
+        $this->add($name, $value, $attributes, 'cdata');
         return $this;
     }
 
@@ -66,7 +94,7 @@ class XMLArray
 
         $value = $this->parseValue($value, $type);
 
-        $newArray = $this->createArray($name, $value, $attributes);
+        $newArray = $this->createArray($name, $value, $attributes, $type);
 
         $this->addToStack($newArray);
 
@@ -186,11 +214,13 @@ class XMLArray
      * @param string $name
      * @param mixed $value
      * @param array $attributes
+     * @param array $type
+     * @param array $ns
      * @return array
      */
-    protected function createArray($name, $value, $attributes = []): array
+    protected function createArray($name, $value, $attributes = [], $type = null, $ns = null): array
     {
         $name = preg_replace('/([^a-zA-Z]+)/', '', $name);
-        return ['name' => $name, 'value' => $value, 'attributes' => $attributes];
+        return ['name' => $name, 'value' => $value, 'type' => $type, 'attributes' => $attributes];
     }
 }
