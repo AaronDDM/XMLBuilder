@@ -38,3 +38,23 @@ $xmlBuilder
 ;
 
 var_dump($xmlBuilder->getXML());
+
+/*
+Output:
+
+
+string(493) "<?xml version="1.0" encoding="UTF-8"?>
+<Root>
+    <FirstChildFirstElement><![CDATA[This is a test]]></FirstChildFirstElement>
+    <FirstChildSecondElement><![CDATA[False]]></FirstChildSecondElement>
+    <SecondParent>
+        <Secondchild><![CDATA[]]></Secondchild>
+        <Secondchild><![CDATA[]]></Secondchild>
+        <ThirdParent>
+            <Child><![CDATA[]]></Child>
+        </ThirdParent>
+    </SecondParent>
+    <FirstChildThirdElement><![CDATA[]]></FirstChildThirdElement>
+</Root>
+"
+*/
