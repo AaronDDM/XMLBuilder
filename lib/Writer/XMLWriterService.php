@@ -26,9 +26,15 @@ class XMLWriterService extends AbstractWriter
     /**
      * XMLWriterService constructor.
      * @param null $xmlWriter
+     * @throws XMLWriterServiceException
      */
     public function __construct($xmlWriter = null)
     {
+        // Ensure we have lib-libxml installed
+        if (!extension_loaded('libxml')) {
+            throw new XMLWriterServiceException('The php extension libxml must be installed in order to use the XMLWriterService.');
+        }
+
         $this->xmlWriter = ($xmlWriter instanceof \XMLWriter) ? $xmlWriter : null;
     }
 
