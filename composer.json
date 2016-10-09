@@ -1,0 +1,21 @@
+{
+    "name": "aaronddm/xml-builder",
+    "description": "A simple PHP based XML builder",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aaron de Mello",
+            "email": "aaron@aarondm.com"
+        }
+    ],
+    "require": {
+      "php": ">=7.0.0",
+      "lib-libxml": "~2.9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "AaronDDM\\XMLBuilder\\": "lib/"
+        }
+    }
+}
