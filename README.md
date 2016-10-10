@@ -1,6 +1,16 @@
-## PHP XML Builder Library
+# PHP XML Builder Library
 
-### Example
+## Installation
+
+```
+composer require aaronddm\xml-builder
+```
+
+### Prerequisites
+
+- PHP >=7.0.0
+
+### Example: Using XMLWriter
 ```php
 <?php
 
@@ -42,11 +52,11 @@ $xmlBuilder
 ;
 
 var_dump($xmlBuilder->getXML());
+```
 
-/*
-----------------------------------------------
-Output:
-----------------------------------------------
+
+#### Output
+```
 string(414) "<?xml version="1.0" encoding="UTF-8"?>
 <Root>
     <FirstChildFirstElement><![CDATA[This is a test]]></FirstChildFirstElement>
@@ -61,5 +71,4 @@ string(414) "<?xml version="1.0" encoding="UTF-8"?>
     <FirstChildThirdElement/>
 </Root>
 "
-
-*/
+```
