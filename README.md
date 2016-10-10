@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-composer require aaronddm\xml-builder
+composer require aaronddm/xml-builder
 ```
 
 ### Prerequisites
