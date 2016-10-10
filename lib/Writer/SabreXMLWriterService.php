@@ -10,8 +10,8 @@
 
 namespace AaronDDM\XMLBuilder\Writer;
 
-use Sabre\XML;
 use AaronDDM\XMLBuilder\Exception\SabreXMLWriterServiceException;
+use Sabre\XML;
 use Sabre\Xml\Writer;
 
 /**
@@ -50,7 +50,7 @@ class SabreXMLWriterService extends AbstractWriter
     public function getXML($xmlArray): string
     {
         // Only continue if we have anything to generate
-        if(empty($xmlArray)) {
+        if (empty($xmlArray)) {
             throw new SabreXMLWriterServiceException('You are calling getXML() before building the array.');
         }
 
@@ -58,7 +58,7 @@ class SabreXMLWriterService extends AbstractWriter
         $xmlWriter = $this->xmlWriter;
 
         // Start our writer if we don't already have one
-        if($xmlWriter === null) {
+        if ($xmlWriter === null) {
             $xmlWriter = new Writer();
             $xmlWriter->openMemory();
             $xmlWriter->setIndent(true);

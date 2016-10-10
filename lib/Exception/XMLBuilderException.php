@@ -11,7 +11,7 @@
 namespace AaronDDM\XMLBuilder\Exception;
 
 
-class XMLBuilderException extends \Exception 
+class XMLBuilderException extends \Exception
 {
 
 }

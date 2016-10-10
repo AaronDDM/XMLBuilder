@@ -21,7 +21,6 @@ abstract class AbstractWriter
      *
      * @param null $xmlWriter
      * @return string
-     * @throws \Exception
      */
     public abstract function getXML($xmlArray): string;
 }

@@ -48,7 +48,7 @@ class XMLWriterService extends AbstractWriter
     public function getXML($xmlArray): string
     {
         // Only continue if we have anything to generate
-        if(empty($xmlArray)) {
+        if (empty($xmlArray)) {
             throw new XMLWriterServiceException('You are calling getXML() before building the array.');
         }
 
@@ -56,7 +56,7 @@ class XMLWriterService extends AbstractWriter
         $xmlWriter = $this->xmlWriter;
 
         // Start our writer if we don't already have one
-        if($xmlWriter === null) {
+        if ($xmlWriter === null) {
             $xmlWriter = new \XMLWriter();
             $xmlWriter->openMemory();
             $xmlWriter->setIndent(true);
@@ -77,8 +77,7 @@ class XMLWriterService extends AbstractWriter
      */
     protected function buildXML($array, \XMLWriter &$xmlWriter)
     {
-        foreach($array as $element)
-        {
+        foreach ($array as $element) {
             $xmlWriter->startElement($element['name']);
             foreach ($element['attributes'] as $attributeName => $value) {
                 $xmlWriter->writeAttribute($attributeName, $value);
@@ -86,12 +85,11 @@ class XMLWriterService extends AbstractWriter
             if (is_array($element['value'])) {
                 $this->buildXML($element['value'], $xmlWriter);
             } else {
-                if($element['value'] !== null) {
-                    switch(strtolower($element['type']))
-                    {
+                if ($element['value'] !== null) {
+                    switch (strtolower($element['type'])) {
                         case 'cdata':
                             $xmlWriter->writeCdata($element['value']);
-                        break;
+                            break;
                             break;
                         case 'comment':
                             $xmlWriter->writeComment($element['value']);
