@@ -14,7 +14,8 @@
     },
     "require-dev": {
         "lib-libxml": "~2.9.3",
-        "sabre/xml": "^1.4"
+        "sabre/xml": "^1.4",
+        "phpunit/phpunit": "^5.6"
     },
     "autoload": {
         "psr-4": {
