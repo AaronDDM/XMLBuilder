@@ -6,11 +6,11 @@
 composer require aaronddm/xml-builder
 ```
 
-### Prerequisites
+## Prerequisites
 
 - PHP >=7.0.0
 
-### Example: Using XMLWriter
+## Example: Using XMLWriter
 ```php
 <?php
 
@@ -55,7 +55,7 @@ var_dump($xmlBuilder->getXML());
 ```
 
 
-#### Output
+### Output
 ```
 string(414) "<?xml version="1.0" encoding="UTF-8"?>
 <Root>
