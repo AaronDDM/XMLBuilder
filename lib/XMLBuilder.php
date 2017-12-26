@@ -34,8 +34,6 @@ class XMLBuilder extends XMLArray
 
     /**
      * Get's the XML output for our array.
-     *
-     * @param null $xmlWriter
      * @return string
      */
     public function getXML(): string

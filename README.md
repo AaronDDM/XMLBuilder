@@ -72,3 +72,9 @@ string(414) "<?xml version="1.0" encoding="UTF-8"?>
 </Root>
 "
 ```
+
+## Running tests
+```
+cd /root/of/project/
+vendor/bin/phpunit
+```

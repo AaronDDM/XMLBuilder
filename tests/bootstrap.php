@@ -11,8 +11,8 @@
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 $root = realpath(dirname(dirname(__FILE__)));
-$library = "$root/Rest";
-$tests = "$root/Tests";
+$library = "$root/src";
+$tests = "$root/tests";
 $path = array($library, $tests, get_include_path());
 set_include_path(implode(PATH_SEPARATOR, $path));
 $vendorFilename = dirname(__FILE__) . '/../vendor/autoload.php';

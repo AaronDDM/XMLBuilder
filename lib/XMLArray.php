@@ -36,7 +36,7 @@ class XMLArray
      * Starts a new parent element in the stack.
      *
      * @param $name
-     * @param null $attributes
+     * @param array $attributes
      * @return XMLArray
      */
     public function start($name, $attributes = []): XMLArray
@@ -55,6 +55,7 @@ class XMLArray
      * @param null $value
      * @param array $attributes
      * @return XMLArray
+     * @throws XMLArrayException
      */
     public function addBoolean($name, $value = null, $attributes = []): XMLArray
     {
@@ -69,6 +70,7 @@ class XMLArray
      * @param null $value
      * @param array $attributes
      * @return XMLArray
+     * @throws XMLArrayException
      */
     public function addCData($name, $value = null, $attributes = []): XMLArray
     {
@@ -180,7 +182,6 @@ class XMLArray
      * to create our XML output.
      *
      * @return array
-     * @throws XMLArrayException
      */
     public function getArray(): array
     {
