@@ -17,12 +17,10 @@ class XMLArrayTest extends TestCase
 {
     public function testGetArray()
     {
-        $xmlArray = new XMLArray();
-        $xmlArray
+        $xmlArray = XMLArray::initiate()
             ->start('Root')
                 ->add('Test')
             ->end();
-        ;
 
         $expectedArray = [
             'name' => 'Root',
@@ -40,8 +38,7 @@ class XMLArrayTest extends TestCase
 
         $this->assertEquals($expectedArray, $xmlArray->getArray());
 
-        $xmlArray = new XMLArray();
-        $xmlArray
+        $xmlArray = XMLArray::initiate()
             ->start('Root', ['myAttr' => 'attr-value'])
                 ->addCData('Test', 'test')
             ->end();
@@ -62,8 +59,7 @@ class XMLArrayTest extends TestCase
         ];
 
         $this->assertEquals($expectedArray, $xmlArray->getArray());
-        $xmlArray = new XMLArray();
-        $xmlArray
+        $xmlArray = XMLArray::initiate()
             ->start('Root', ['myAttr' => 'attr-value'])
                 ->addCData('Test', 'test')
                 ->start('Child')

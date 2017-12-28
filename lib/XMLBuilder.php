@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * This file is part of the XML Builder Library.
  *
@@ -16,12 +17,22 @@ use AaronDDM\XMLBuilder\Writer\AbstractWriter;
  * Class XMLBuilder
  * @package AaronDDM\XMLBuilder
  */
-class XMLBuilder extends XMLArray
+class XMLBuilder
 {
     /**
      * @var AbstractWriter
      */
     protected $writer;
+
+    /**
+     * @var XMLArray
+     */
+    protected $xmlArray;
+
+    /**
+     * @var null|string
+     */
+    protected $elementDataClass = XMLElementData::class;
 
     /**
      * XMLBuilder constructor.
@@ -33,12 +44,63 @@ class XMLBuilder extends XMLArray
     }
 
     /**
+     * @return XMLArray
+     */
+    public function createXMLArray()
+    {
+        return $this->xmlArray = XMLArray::initiate($this->getElementDataClass());
+    }
+
+    /**
+     * @return AbstractWriter
+     */
+    public function getWriter(): AbstractWriter
+    {
+        return $this->writer;
+    }
+
+    /**
+     * @param AbstractWriter $writer
+     * @return XMLBuilder
+     */
+    public function setWriter(AbstractWriter $writer): XMLBuilder
+    {
+        $this->writer = $writer;
+        return $this;
+    }
+
+    /**
+     * @return XMLArray
+     */
+    public function getXMLArray(): XMLArray
+    {
+        return $this->xmlArray;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getElementDataClass(): ?string
+    {
+        return $this->elementDataClass;
+    }
+
+    /**
+     * @param null|string $elementDataClass
+     * @return XMLBuilder
+     */
+    public function setElementDataClass(?string $elementDataClass): XMLBuilder
+    {
+        $this->elementDataClass = $elementDataClass;
+        return $this;
+    }
+
+    /**
      * Get's the XML output for our array.
      * @return string
      */
     public function getXML(): string
     {
-        return $this->writer->getXML($this->getArray());
+        return $this->writer->getXML($this->getXMLArray()->getArray());
     }
-
 }

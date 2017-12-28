@@ -22,18 +22,19 @@ class XMLBuilderTest extends TestCase
         $xmlBuilder = new XMLBuilder($xmlWriterService);
 
         $xmlBuilder
-            ->start('Root')
-                ->addCData('1 First Child First Element', 'This is a test')
-                ->add('First Child Second Element', 'False')
-                ->start('Second Parent')
-                    ->add('Second child 1', null, ['myAttr' => 'Attr Value'])
-                    ->add('Second child 2', 'False')
-                    ->start('Third Parent')
-                        ->add('Child')
+            ->createXMLArray()
+                ->start('Root')
+                    ->addCData('1 First Child First Element', 'This is a test')
+                    ->add('First Child Second Element', 'False')
+                    ->start('Second Parent')
+                        ->add('Second child 1', null, ['myAttr' => 'Attr Value'])
+                        ->add('Second child 2', 'False')
+                        ->start('Third Parent')
+                            ->add('Child')
+                        ->end()
                     ->end()
+                    ->add('First Child Third Element')
                 ->end()
-                ->add('First Child Third Element')
-            ->end()
         ;
 
         $expectedXML = '<?xml version="1.0" encoding="UTF-8"?>

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * This file is part of the XML Builder Library.
  *
@@ -7,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace AaronDDM\XMLBuilder;
 
 use AaronDDM\XMLBuilder\Exception\XMLArrayException;
@@ -18,9 +20,9 @@ use AaronDDM\XMLBuilder\Exception\XMLArrayException;
 class XMLArray
 {
     /**
-     * @var array
+     * @var XMLArray
      */
-    protected $array = [];
+    protected $parent;
 
     /**
      * @var array
@@ -28,200 +30,117 @@ class XMLArray
     protected $stack = [];
 
     /**
-     * @var \Closure
+     * @var null|string
      */
-    protected $parseValueFunction;
+    protected $elementDataClass = XMLElementData::class;
 
     /**
-     * Starts a new parent element in the stack.
-     *
-     * @param $name
-     * @param array $attributes
+     * @param null|string $elementDataClass
      * @return XMLArray
      */
-    public function start($name, $attributes = []): XMLArray
+    public static function initiate(?string $elementDataClass = null)
     {
-        $newArray = $this->createArray($name, [], $attributes);
-
-        $this->stack[] = $newArray;
-
-        return $this;
-    }
-
-    /**
-     * Add a single/child element with a cdata type.
-     *
-     * @param $name
-     * @param null $value
-     * @param array $attributes
-     * @return XMLArray
-     * @throws XMLArrayException
-     */
-    public function addBoolean($name, $value = null, $attributes = []): XMLArray
-    {
-        $this->add($name, $value, $attributes, 'boolean');
-        return $this;
-    }
-
-    /**
-     * Add a single/child element with a cdata type.
-     *
-     * @param $name
-     * @param null $value
-     * @param array $attributes
-     * @return XMLArray
-     * @throws XMLArrayException
-     */
-    public function addCData($name, $value = null, $attributes = []): XMLArray
-    {
-        $this->add($name, $value, $attributes, 'cdata');
-        return $this;
-    }
-
-    /**
-     * Adds a single/child element to the stack.
-     *
-     * @param $name
-     * @param null $value
-     * @param array $attributes
-     * @param mixed $type
-     * @return XMLArray
-     * @throws XMLArrayException
-     */
-    public function add($name, $value = null, $attributes = [], $type = null): XMLArray
-    {
-        if (empty($this->stack)) {
-            throw new XMLArrayException('You must start a root element before adding new elements.');
+        if (is_null($elementDataClass)) {
+            $elementDataClass = XMLElementData::class;
         }
 
-        $value = $this->parseValue($value, $type);
+        $xmlArray = new static();
+        $xmlArray->setElementDataClass($elementDataClass);
 
-        $newArray = $this->createArray($name, $value, $attributes, $type);
+        return $xmlArray;
+    }
 
-        $this->addToStack($newArray);
+    /**
+     * @param string $rootName
+     * @param array $attributes
+     * @return XMLArray
+     */
+    public function start(string $rootName, array $attributes = []): XMLArray
+    {
+        $root = self::initiate($this->getElementDataClass());
+        $root->parent = $this;
 
+        $this->stack[] = $this->getElementDataClass()::create($rootName, $root, $attributes);
+
+        return $root;
+    }
+
+    /**
+     * @param string $name
+     * @param null|object|string|integer|float|double|boolean $value
+     * @param array $attributes
+     * @param null|string $type
+     * @return XMLArray
+     * @throws XMLArrayException
+     */
+    public function add(string $name, $value = null, array $attributes = [], ?string $type = null): XMLArray
+    {
+        if (!$this->hasRoot()) {
+            throw new XMLArrayException('No root found. You must call start() before calling add()');
+        }
+
+        $this->stack[] = $this->getElementDataClass()::create($name, $value, $attributes, $type);
         return $this;
     }
 
     /**
-     * Marks that the previous opened element has ended.
-     *
+     * @param string $name
+     * @param null $value
+     * @param array $attributes
      * @return XMLArray
      * @throws XMLArrayException
+     */
+    public function addCData(string $name, $value = null, array $attributes = []): XMLArray
+    {
+        return $this->add($name, $value, $attributes, 'cdata');
+    }
+
+    /**
+     * @return XMLArray
      */
     public function end(): XMLArray
     {
-        if (empty($this->stack)) {
-            throw new XMLArrayException('No elements in the stack to call end().');
-        }
-
-        $lastElement = array_pop($this->stack);
-
-        if (!empty($this->stack)) {
-            $this->addToStack($lastElement);
-        } else {
-            $this->array = $lastElement;
-        }
-
-        return $this;
+        return ($this->hasRoot()) ? $this->parent : $this;
     }
 
     /**
-     * Parse value based on the type usually.
-     *
-     * @param $value
-     * @param $type
-     * @return mixed
-     */
-    public function parseValue($value, $type)
-    {
-        $parserFunction = $this->getParseValueFunction();
-        return ($this->getParseValueFunction() instanceof \Closure) ? $parserFunction($value, $type) : $value;
-    }
-
-    /**
-     * Get's the current stack
-     *
-     * @return array
-     */
-    public function getStack(): array
-    {
-        return $this->stack;
-    }
-
-    /**
-     * @param array $stack
-     * @return XMLArray
-     */
-    public function setStack(array $stack): XMLArray
-    {
-        $this->stack = $stack;
-        return $this;
-    }
-
-    /**
-     * @return \Closure
-     */
-    public function getParseValueFunction()
-    {
-        return $this->parseValueFunction;
-    }
-
-    /**
-     * @param \Closure $parseValueFunction
-     * @return XMLArray
-     */
-    public function setParseValueFunction($parseValueFunction)
-    {
-        $this->parseValueFunction = $parseValueFunction;
-        return $this;
-    }
-
-    /**
-     * Gets our generates our array that will be used
-     * to create our XML output.
-     *
      * @return array
      */
     public function getArray(): array
     {
-        return $this->array;
+        $array = [];
+        /** @var XMLElementData $root */
+        foreach ($this->stack as $root)
+        {
+            $array[] = $root->getArray();
+        }
+
+        return ($this->hasRoot()) ? $array : array_pop($array);
     }
 
     /**
-     * Adds a given array to the stack.
-     *
-     * @param $array
+     * @return string
+     */
+    public function getElementDataClass(): string
+    {
+        return $this->elementDataClass;
+    }
+
+    /**
+     * @param string $elementDataClass
      * @return XMLArray
      */
-    protected function addToStack($array): XMLArray
+    public function setElementDataClass(string $elementDataClass): XMLArray
     {
-        $lastElementKey = key(array_slice($this->stack, -1, 1, TRUE));
-        $parentElement = (isset($this->stack[$lastElementKey])) ? $this->stack[$lastElementKey] : false;
-
-        if ($parentElement !== false) {
-            $parentElement['value'][] = $array;
-
-            $this->stack[$lastElementKey] = $parentElement;
-        }
-
+        $this->elementDataClass = $elementDataClass;
         return $this;
     }
 
     /**
-     * Generates an array that we'll use to build our
-     * array that converts to our XML output.
-     *
-     * @param string $name
-     * @param mixed $value
-     * @param array $attributes
-     * @param array $type
-     * @param array $ns
-     * @return array
+     * @return bool
      */
-    protected function createArray($name, $value, $attributes = [], $type = null, $ns = null): array
+    protected function hasRoot(): bool
     {
-        $name = preg_replace('/([^a-zA-Z]+)/', '', $name);
-        return ['name' => $name, 'value' => $value, 'type' => $type, 'attributes' => $attributes];
+        return (!empty($this->parent));
     }
 }
