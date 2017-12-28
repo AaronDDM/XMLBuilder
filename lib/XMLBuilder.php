@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace AaronDDM\XMLBuilder;
 
+use AaronDDM\XMLBuilder\Exception\XMLBuilderException;
 use AaronDDM\XMLBuilder\Writer\AbstractWriter;
 
 /**
@@ -96,11 +97,15 @@ class XMLBuilder
     }
 
     /**
-     * Get's the XML output for our array.
      * @return string
+     * @throws XMLBuilderException
      */
     public function getXML(): string
     {
+        if (!$this->getXMLArray() instanceof XMLArray) {
+            throw new XMLBuilderException('You attempted to call getXML() without first calling createXMLArray().');
+        }
+
         return $this->writer->getXML($this->getXMLArray()->getArray());
     }
 }
