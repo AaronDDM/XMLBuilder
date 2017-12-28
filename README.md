@@ -1,4 +1,22 @@
 # PHP XML Builder Library
+This is a simple PHP 7.1+ based XML Builder library. Use it to easily generate XML output with just PHP.
+
+## Table of Contents
+
+1. [Installation](#installation)
+2. [Prerequisites](#prerequisites)
+3. [Basic Usage](#basic-usage)
+    1. [Example: Using XMLWriter](#example-using-xmlwriter)
+    2. [Output](#output)
+4. [Looping through data](#looping-through-data)
+    1. [Example: XML output of a list of users](#example-xml-output-of-a-list-of-users)
+    2. [Output](#output-1)
+5. [Using a custom "XMLElementData" class](#using-a-custom-xmlelementdata-class)
+    1. [Example: Customized MyXMLElementData class](#example-customized-myxmlelementdata-class)
+    2. [Output](#output-2)
+6. [Running tests](#running-tests)
+7. [License](#license)
+
 
 ## Installation
 
@@ -11,7 +29,10 @@ composer require aaronddm/xml-builder
 - PHP >=7.1.0
 - php-xml if using XMLWriter
 
-## Example: Using XMLWriter
+## Basic Usage
+The following is an example of the most basic usage of this library.
+
+### Example: Using XMLWriter
 ```php
 <?php
 
@@ -60,6 +81,67 @@ string(414) "<?xml version="1.0" encoding="UTF-8"?>
         </ThirdParent>
     </SecondParent>
     <FirstChildThirdElement/>
+</Root>
+"
+```
+
+## Looping through data
+You easily added sets of data using the startLoop method provided.
+
+### Example: XML output of a list of users
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use AaronDDM\XMLBuilder\XMLArray;
+use AaronDDM\XMLBuilder\XMLBuilder;
+use AaronDDM\XMLBuilder\Writer\XMLWriterService;
+
+$users = [
+    [
+        'name' => 'John Doe',
+        'age' => 32
+    ],
+    [
+        'name' => 'Jane Doe',
+        'age' => 98
+    ]
+];
+
+
+$xmlWriterService = new XMLWriterService();
+$xmlBuilder = new XMLBuilder($xmlWriterService);
+
+$xmlBuilder
+    ->createXMLArray()
+        ->start('Root')
+            ->startLoop('Users', [], function (XMLArray $XMLArray) use ($users) {
+                foreach ($users as $user) {
+                    $XMLArray->start('User')
+                        ->add('name', $user['name'])
+                        ->add('age', $user['age']);
+                }
+            })
+            ->end()
+        ->end();
+
+var_dump($xmlBuilder->getXML());
+```
+
+### Output
+```
+string(261) "<?xml version="1.0" encoding="UTF-8"?>
+<Root>
+    <Users>
+        <User>
+            <name>John Doe</name>
+            <age>32</age>
+        </User>
+        <User>
+            <name>Jane Doe</name>
+            <age>98</age>
+        </User>
+    </Users>
 </Root>
 "
 ```
@@ -156,7 +238,10 @@ string(482) "<?xml version="1.0" encoding="UTF-8"?>
 ```
 
 ## Running tests
-```
+```bash
 cd /root/of/project/
 vendor/bin/phpunit
 ```
+
+## License
+This project is open-sourced software licensed under the [MIT](https://opensource.org/licenses/MIT) license.

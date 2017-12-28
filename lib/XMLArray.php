@@ -83,6 +83,21 @@ class XMLArray
         return $this;
     }
 
+    /**s
+     * @param string $name
+     * @param array $attributes
+     * @param \Closure $loopFunction
+     * @return mixed
+     */
+    public function startLoop(string $name, array $attributes = [], \Closure $loopFunction)
+    {
+        $xmlArray = $this->start($name, $attributes);
+
+        $loop = $loopFunction($xmlArray);
+
+        return $xmlArray;
+    }
+
     /**
      * @param string $name
      * @param null $value
