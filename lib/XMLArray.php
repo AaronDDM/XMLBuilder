@@ -96,6 +96,17 @@ class XMLArray
         $loop = $loopFunction($xmlArray);
 
         return $xmlArray;
+    }    
+
+    /**
+     * @param \Closure $loopFunction
+     * @return mixed
+     */
+    public function loop(\Closure $loopFunction)
+    {
+        $loop = $loopFunction($this);
+
+        return $this;
     }
 
     /**
