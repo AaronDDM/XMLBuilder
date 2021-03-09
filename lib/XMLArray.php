@@ -111,7 +111,7 @@ class XMLArray
 
     /**
      * @param string $name
-     * @param null $value
+     * @param null|object|string|integer|float|double|boolean $value
      * @param array $attributes
      * @return XMLArray
      * @throws XMLArrayException
