@@ -5,19 +5,21 @@ This is a simple PHP 7.1+ based XML Builder library. Use it to easily generate X
 
 ## Table of Contents
 
-1. [Installation](#installation)
-2. [Prerequisites](#prerequisites)
-3. [Basic Usage](#basic-usage)
-    1. [Example: Using XMLWriter](#example-using-xmlwriter)
-    2. [Output](#output)
-4. [Looping through data](#looping-through-data)
-    1. [Example: XML output of a list of users](#example-xml-output-of-a-list-of-users)
-    2. [Output](#output-1)
-5. [Using a custom "XMLElementData" class](#using-a-custom-xmlelementdata-class)
-    1. [Example: Customized MyXMLElementData class](#example-customized-myxmlelementdata-class)
-    2. [Output](#output-2)
-6. [Running tests](#running-tests)
-7. [License](#license)
+- [PHP XML Builder Library](#php-xml-builder-library)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Basic Usage](#basic-usage)
+    - [Example: Using XMLWriter](#example-using-xmlwriter)
+    - [Output](#output)
+  - [Looping through data](#looping-through-data)
+    - [Example: XML output of a list of users](#example-xml-output-of-a-list-of-users)
+    - [Output](#output-1)
+  - [Using a custom "XMLElementData" class](#using-a-custom-xmlelementdata-class)
+    - [Example: Customized MyXMLElementData class](#example-customized-myxmlelementdata-class)
+    - [Output](#output-2)
+  - [Running tests](#running-tests)
+  - [License](#license)
 
 
 ## Installation
@@ -243,6 +245,13 @@ string(482) "<?xml version="1.0" encoding="UTF-8"?>
 ```bash
 cd /root/of/project/
 vendor/bin/phpunit
+```
+
+OR
+
+```bash
+docker build -t xmlbuilder .
+docker run -u appuser -it --rm xmlbuilder vendor/bin/phpunit
 ```
 
 ## License

@@ -16,7 +16,7 @@
         "ext-xmlwriter" : "*",
         "lib-libxml" : ">=2.6.20",
         "sabre/xml": "^1.4",
-        "phpunit/phpunit": "^5.6"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
