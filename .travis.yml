@@ -9,6 +9,7 @@ cache:
 php:
   - '7.1'
   - '7.2'
+  - '8.0'
 
 phpunit: phpunit --coverage-text
 
