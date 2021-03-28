@@ -30,7 +30,7 @@ composer require aaronddm/xml-builder
 
 ## Prerequisites
 
-- PHP >=7.1.0
+- PHP >=7.2.0
 - php-xml if using XMLWriter
 
 ## Basic Usage
