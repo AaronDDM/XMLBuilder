@@ -62,11 +62,11 @@ class XMLWriterService extends AbstractWriter
             $xmlWriter->setIndent(true);
             $xmlWriter->setIndentString('    ');
             $xmlWriter->startDocument('1.0', 'UTF-8');
-        } else {
-            $xmlWriter->openMemory();
         }
 
         $this->buildXML([$xmlArray], $xmlWriter);
+
+        $xmlWriter->endDocument();
 
         return $xmlWriter->outputMemory(true);
     }
