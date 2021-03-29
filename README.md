@@ -1,5 +1,5 @@
 # PHP XML Builder Library
-This is a simple PHP 7.1+ based XML Builder library. Use it to easily generate XML output with just PHP.
+This is a simple PHP 7.2+ based XML Builder library. Use it to easily generate XML output with just PHP.
 
 [![Build Status](https://travis-ci.org/AaronDDM/XMLBuilder.svg?branch=master)](https://travis-ci.org/AaronDDM/XMLBuilder)
 
