@@ -65,7 +65,6 @@ class XMLBuilderTest extends TestCase
         $xmlWriter->startDocument('1.0', 'UTF-8');
         $xmlWriter->writeDtd('html', '-//W3C//DTD XHTML 1.0 Transitional//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd');
 
-
         $xmlWriterService = new XMLWriterService($xmlWriter);
         $xmlBuilder = new XMLBuilder($xmlWriterService);
 
