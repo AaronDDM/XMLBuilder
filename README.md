@@ -89,6 +89,68 @@ string(414) "<?xml version="1.0" encoding="UTF-8"?>
 "
 ```
 
+### Example: Custom XMLWriter instance
+```php
+<?php
+
+require_once 'vendor/autoload.php';
+
+use AaronDDM\XMLBuilder\XMLBuilder;
+use AaronDDM\XMLBuilder\Writer\XMLWriterService;
+
+$xmlWriter = new \XMLWriter();
+$xmlWriter->openMemory();
+$xmlWriter->setIndent(true);
+$xmlWriter->setIndentString('    ');
+$xmlWriter->startDocument('1.0', 'UTF-8');
+$xmlWriter->writeDtd('html', '-//W3C//DTD XHTML 1.0 Transitional//EN', 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd');
+
+$xmlWriterService = new XMLWriterService($xmlWriter);
+$xmlBuilder = new XMLBuilder($xmlWriterService);
+
+try {
+    $xmlBuilder
+        ->createXMLArray()
+            ->start('Root')
+                ->addCData('1 First Child First Element', 'This is a test')
+                ->add('First Child Second Element', false)
+                ->start('Second Parent')
+                    ->add('Second child 1', null, ['myAttr' => 'Attr Value'])
+                    ->add('Second child 2', false)
+                    ->start('Third Parent')
+                        ->add('Child')
+                    ->end()
+                ->end()
+                ->add('First Child Third Element')
+            ->end();
+
+    var_dump($xmlBuilder->getXML());
+} catch (XMLArrayException $e) {
+    var_dump('An exception occurred: ' . $e->getMessage());
+}
+```
+
+### Output
+```
+string(414) "<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<Root>
+    <FirstChildFirstElement><![CDATA[This is a test]]></FirstChildFirstElement>
+    <FirstChildSecondElement>False</FirstChildSecondElement>
+    <SecondParent>
+        <Secondchild myAttr="Attr Value"/>
+        <Secondchild>False</Secondchild>
+        <ThirdParent>
+            <Child/>
+        </ThirdParent>
+    </SecondParent>
+    <FirstChildThirdElement/>
+</Root>
+"
+```
+
 ## Looping through data
 You easily added sets of data using the startLoop method provided.
 
