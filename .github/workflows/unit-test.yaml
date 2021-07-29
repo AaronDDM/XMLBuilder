@@ -1,0 +1,29 @@
+name: unit-test
+
+on: [push]
+
+jobs:
+  run:    
+    runs-on: ${{ matrix.operating-system }}
+    strategy:      
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
+    name: PHP v${{ matrix.php-versions }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v1
+      with:
+        php-version: ${{ matrix.php-versions }}
+
+    - name: PHP version
+      run: php -v
+
+    - name: Composer install
+      run: composer install --dev
+
+    - name: Run tests
+      run: phpunit --coverage-text
