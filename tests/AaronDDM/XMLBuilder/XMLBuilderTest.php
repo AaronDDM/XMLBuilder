@@ -42,8 +42,8 @@ class XMLBuilderTest extends TestCase
     <FirstChildFirstElement><![CDATA[This is a test]]></FirstChildFirstElement>
     <FirstChildSecondElement>False</FirstChildSecondElement>
     <SecondParent>
-        <Secondchild myAttr="Attr Value"/>
-        <Secondchild>False</Secondchild>
+        <Secondchild1 myAttr="Attr Value"/>
+        <Secondchild2>False</Secondchild2>
         <ThirdParent>
             <Child/>
         </ThirdParent>
@@ -92,8 +92,8 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     <FirstChildFirstElement><![CDATA[This is a test]]></FirstChildFirstElement>
     <FirstChildSecondElement>False</FirstChildSecondElement>
     <SecondParent>
-        <Secondchild myAttr="Attr Value"/>
-        <Secondchild>False</Secondchild>
+        <Secondchild1 myAttr="Attr Value"/>
+        <Secondchild2>False</Secondchild2>
         <ThirdParent>
             <Child/>
         </ThirdParent>
