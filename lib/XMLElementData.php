@@ -69,7 +69,7 @@ class XMLElementData
      */
     public function setName(string $name): XMLElementData
     {
-        $name = preg_replace('/([^a-zA-Z\-\_\:]+)/', '', $name);
+        $name = preg_replace('/(^[0-9]+|[^a-zA-Z0-9\-\_\:]+)/', '', $name);
 
         $this->name = $name;
         return $this;
