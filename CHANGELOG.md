@@ -1,3 +1,6 @@
+# 2.0.2
+- Element names can include numbers now
+
 # 2.0.1
 - Colons are now allowed in element data names
 # Upgrading from 1.x to 2.0.0
