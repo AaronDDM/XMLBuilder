@@ -10,12 +10,17 @@ This is a simple PHP 7.2+ based XML Builder library. Use it to easily generate X
   - [Basic Usage](#basic-usage)
     - [Example: Using XMLWriter](#example-using-xmlwriter)
     - [Output](#output)
+    - [Example: Custom XMLWriter instance](#example-custom-xmlwriter-instance)
+    - [Output](#output-1)
   - [Looping through data](#looping-through-data)
     - [Example: XML output of a list of users](#example-xml-output-of-a-list-of-users)
-    - [Output](#output-1)
+    - [Output](#output-2)
+  - [Looping without a parent](#looping-without-a-parent)
+    - [Example: XML output of a list of users](#example-xml-output-of-a-list-of-users-1)
+  - [Output](#output-3)
   - [Using a custom "XMLElementData" class](#using-a-custom-xmlelementdata-class)
     - [Example: Customized MyXMLElementData class](#example-customized-myxmlelementdata-class)
-    - [Output](#output-2)
+    - [Output](#output-4)
   - [Running tests](#running-tests)
   - [License](#license)
 
@@ -150,7 +155,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 ```
 
 ## Looping through data
-You easily added sets of data using the startLoop method provided.
+You easily added sets of data using the `startLoop` method provided.
 
 ### Example: XML output of a list of users
 ```php
@@ -214,7 +219,7 @@ string(261) "<?xml version="1.0" encoding="UTF-8"?>
 You easily loop through a list of of data using the `loop` method provided, without having a `parent` element for the looped data.
 
 
-## Example: XML output of a list of users
+### Example: XML output of a list of users
 ```php
 <?php
 require_once 'vendor/autoload.php';
