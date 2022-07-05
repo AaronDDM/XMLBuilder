@@ -17,7 +17,7 @@ This is a simple PHP 7.2+ based XML Builder library. Use it to easily generate X
     - [Output](#output-2)
   - [Looping without a parent](#looping-without-a-parent)
     - [Example: XML output of a list of users](#example-xml-output-of-a-list-of-users-1)
-  - [Output](#output-3)
+    - [Output](#output-3)
   - [Using a custom "XMLElementData" class](#using-a-custom-xmlelementdata-class)
     - [Example: Customized MyXMLElementData class](#example-customized-myxmlelementdata-class)
     - [Output](#output-4)
@@ -259,7 +259,7 @@ var_dump($xmlBuilder->getXML());
 ?>
 ```
 
-## Output
+### Output
 ```
 <Root>
     <User>
