@@ -210,6 +210,64 @@ string(261) "<?xml version="1.0" encoding="UTF-8"?>
 "
 ```
 
+## Looping without a parent
+You easily loop through a list of of data using the `loop` method provided, without having a `parent` element for the looped data.
+
+
+## Example: XML output of a list of users
+```php
+<?php
+require_once 'vendor/autoload.php';
+
+use AaronDDM\XMLBuilder\XMLArray;
+use AaronDDM\XMLBuilder\XMLBuilder;
+use AaronDDM\XMLBuilder\Writer\XMLWriterService;
+
+$users = [
+    [
+        'name' => 'John Doe',
+        'age' => 32
+    ],
+    [
+        'name' => 'Jane Doe',
+        'age' => 98
+    ]
+];
+
+
+$xmlWriterService = new XMLWriterService();
+$xmlBuilder = new XMLBuilder($xmlWriterService);
+
+$xmlBuilder
+    ->createXMLArray()
+    ->start('Root')
+        ->loop(function (XMLArray $XMLArray) use ($users) {
+            foreach ($users as $user) {
+                $XMLArray->start('User')
+                    ->add('name', $user['name'])
+                    ->add('age', $user['age']);
+            }
+        })
+    ->end();
+    
+var_dump($xmlBuilder->getXML());
+?>
+```
+
+## Output
+```
+<Root>
+    <User>
+        <name>John Doe</name>
+        <age>32</age>
+    </User>
+    <User>
+        <name>Jane Doe</name>
+        <age>98</age>
+    </User>
+</Root>
+```
+
 ## Using a custom "XMLElementData" class
 You can override the XMLElementData element class to implement transformations to the value of your data based on the type passed.
 To do this, you simply extend the XMLElementData class and override any of the methods to your liking.

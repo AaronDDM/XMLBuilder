@@ -105,6 +105,79 @@ class XMLArrayTest extends TestCase
 
         $this->assertEquals($expectedArray, $xmlArray->getArray());
     }
+    
+    public function testLoop()
+    {
+        $users = [
+            [
+                'name' => 'John Doe',
+                'age' => 32
+            ],
+            [
+                'name' => 'Jane Doe',
+                'age' => 98
+            ]
+        ];
+
+        $xmlArray = XMLArray::initiate()
+            ->start('Root')
+                ->loop(function (XMLArray $XMLArray) use ($users) {
+                    foreach ($users as $user) {
+                        $XMLArray->start('User')
+                            ->add('name', $user['name'])
+                            ->add('age', $user['age']);
+                    }
+                })
+            ->end();
+            
+            $expectedArray = [
+                'name' => 'Root',
+                'value' => [
+                    [
+                        'name' => 'User',
+                        'value' => [
+                            [
+                                'name' => 'name',
+                                'value' => 'John Doe',
+                                'attributes' => [],
+                                'type' => null
+                            ],
+                            [
+                                'name' => 'age',
+                                'value' => 32,
+                                'attributes' => [],
+                                'type' => null
+                            ]
+                        ],
+                        'attributes' => [],
+                        'type' => null
+                    ],
+                    [
+                        'name' => 'User',
+                        'value' => [
+                            [
+                                'name' => 'name',
+                                'value' => 'Jane Doe',
+                                'attributes' => [],
+                                'type' => null
+                            ],
+                            [
+                                'name' => 'age',
+                                'value' => 98,
+                                'attributes' => [],
+                                'type' => null
+                            ]
+                        ],
+                        'attributes' => [],
+                        'type' => null
+                    ]
+                ],
+                'attributes' => [],
+                'type' => null
+            ];
+    
+            $this->assertEquals($expectedArray, $xmlArray->getArray());     
+    }
 
     public function testArrayLoops()
     {
