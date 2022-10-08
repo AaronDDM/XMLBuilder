@@ -86,7 +86,7 @@ class XMLWriterService extends AbstractWriter
                 $this->buildXML($element['value'], $xmlWriter);
             } else {
                 if ($element['value'] !== null) {
-                    switch (strtolower($element['type'])) {
+                    switch (strtolower($element['type'] ?? '')) {
                         case 'cdata':
                             $xmlWriter->writeCdata($element['value']);
                             break;
