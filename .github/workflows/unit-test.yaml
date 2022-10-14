@@ -1,6 +1,6 @@
 name: unit-test
 
-on: [push]
+on: [workflow_dispatch,push]
 
 jobs:
   run:    
