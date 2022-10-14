@@ -90,7 +90,6 @@ class XMLWriterService extends AbstractWriter
                         case 'cdata':
                             $xmlWriter->writeCdata($element['value']);
                             break;
-                            break;
                         case 'comment':
                             $xmlWriter->writeComment($element['value']);
                             break;
